@@ -15,6 +15,7 @@ LOCAL_STATIC_LIBRARIES := libcxx
 LOCAL_CFLAGS := -DRUST_CXX_NO_EXCEPTIONS
 LOCAL_SRC_FILES := \
     new.cpp \
+    cus.cpp \
     files.cpp \
     misc.cpp \
     selinux.cpp \

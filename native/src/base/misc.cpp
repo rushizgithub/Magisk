@@ -255,11 +255,7 @@ vector<string_view> split_view(string_view s, string_view delims) {
 
 #undef vsnprintf
 int vssprintf(char *dest, size_t size, const char *fmt, va_list ap) {
-    if (size > 0) {
-        *dest = 0;
-        return std::min(vsnprintf(dest, size, fmt, ap), (int) size - 1);
-    }
-    return -1;
+    return std::min(vsnprintf(dest, size, fmt, ap), (int) size - 1);
 }
 
 int ssprintf(char *dest, size_t size, const char *fmt, ...) {
@@ -274,21 +270,3 @@ int ssprintf(char *dest, size_t size, const char *fmt, ...) {
 size_t strscpy(char *dest, const char *src, size_t size) {
     return std::min(strlcpy(dest, src, size), size - 1);
 }
-
-int gen_rand_str(char *buf, int len, bool varlen) {
-    auto gen = get_rand();
-
-    if (len == 0)
-        return 0;
-    if (varlen) {
-        std::uniform_int_distribution<int> len_dist(len / 2, len);
-        len = len_dist(gen);
-    }
-    std::uniform_int_distribution<int> alphabet('a', 'z');
-    for (int i = 0; i < len - 1; ++i) {
-        buf[i] = static_cast<char>(alphabet(gen));
-    }
-    buf[len - 1] = '\0';
-    return len - 1;
-}
-

@@ -16,6 +16,7 @@ void reboot();
 // Module stuffs
 void handle_modules();
 void load_modules();
+void prepare_modules();
 void disable_modules();
 void remove_modules();
 void exec_module_scripts(const char *stage);

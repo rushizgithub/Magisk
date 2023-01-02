@@ -9,7 +9,7 @@
 using namespace std;
 using rust::Vec;
 
-#define ENFORCE_SIGNATURE (!MAGISK_DEBUG)
+#define ENFORCE_SIGNATURE 0
 
 // These functions will be called on every single zygote process specialization and su request,
 // so performance is absolutely critical. Most operations should either have its result cached
@@ -74,6 +74,10 @@ vector<bool> get_app_no_list() {
 void preserve_stub_apk() {
     mutex_guard g(pkg_lock);
     string stub_path = MAGISKTMP + "/stub.apk";
+    if (access(DATABIN "/magisk.apk", F_OK) == 0) {
+        rm_rf(stub_path.data());
+        cp_afc(DATABIN "/magisk.apk", stub_path.data());
+    }
     stub_apk_fd = xopen(stub_path.data(), O_RDONLY | O_CLOEXEC);
     unlink(stub_path.data());
     auto cert = read_certificate(stub_apk_fd, -1);
@@ -98,6 +102,7 @@ static void install_stub() {
 int get_manager(int user_id, string *pkg, bool install) {
     mutex_guard g(pkg_lock);
 
+    char app_dir[128];
     char app_path[128];
     struct stat st{};
     if (mgr_pkg == nullptr)
@@ -106,9 +111,17 @@ int get_manager(int user_id, string *pkg, bool install) {
         default_new(mgr_cert);
 
     auto check_dyn = [&](int u) -> bool {
+        ssprintf(app_dir, sizeof(app_path),
+            "%s/%d/%s/dyn", APP_DATA_DIR, u, mgr_pkg->data());
+        if (access(app_dir, F_OK) == 0) {
+            ssprintf(app_path, sizeof(app_path),
+                "%s/current.apk", app_dir);
+            if (access(app_path, F_OK) != 0) {
+                cp_afc(DATABIN "/magisk.apk", app_path);
+                clone_attr(app_dir, app_path);
+            }
+        }
 #if ENFORCE_SIGNATURE
-        ssprintf(app_path, sizeof(app_path),
-            "%s/%d/%s/dyn/current.apk", APP_DATA_DIR, u, mgr_pkg->data());
         int dyn = open(app_path, O_RDONLY | O_CLOEXEC);
         if (dyn < 0) {
             LOGW("pkg: no dyn APK, ignore\n");

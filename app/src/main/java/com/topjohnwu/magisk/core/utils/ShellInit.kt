@@ -79,6 +79,8 @@ class ShellInit : Shell.Initializer() {
         Info.crypto = getVar("CRYPTOTYPE")
         Info.patchBootVbmeta = getBool("PATCHVBMETAFLAG")
         Info.legacySAR = getBool("LEGACYSAR")
+        Info.allowSystemMagisk = getBool("ALLOWSYSTEMINSTALL")
+        Info.sulist = getBool("SULISTMODE")
 
         // Default presets
         Config.recovery = getBool("RECOVERYMODE")

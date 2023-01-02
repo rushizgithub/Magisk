@@ -79,13 +79,13 @@ on property:init.svc.zygote=stopped
     clone_attr(src, dest);
 }
 
-static void load_overlay_rc(const char *overlay) {
+static void load_overlay_rc(const char *overlay, bool should_unlink = true) {
     auto dir = open_dir(overlay);
     if (!dir) return;
 
     int dfd = dirfd(dir.get());
     // Do not allow overwrite init.rc
-    unlinkat(dfd, "init.rc", 0);
+    if (should_unlink) unlinkat(dfd, "init.rc", 0);
 
     // '/' + name + '\0'
     char buf[NAME_MAX + 2];
@@ -102,7 +102,7 @@ static void load_overlay_rc(const char *overlay) {
             int rc = xopenat(dfd, entry->d_name, O_RDONLY | O_CLOEXEC);
             rc_list.push_back(full_read(rc));
             close(rc);
-            unlinkat(dfd, entry->d_name, 0);
+            if (should_unlink) unlinkat(dfd, entry->d_name, 0);
         }
     }
 }
@@ -161,7 +161,7 @@ static void magic_mount(const string &sdir, const string &ddir = "") {
 static void patch_socket_name(const char *path) {
     static char rstr[16] = { 0 };
     if (rstr[0] == '\0')
-        gen_rand_str(rstr, sizeof(rstr));
+        random_strc(rstr, sizeof(rstr));
     auto bin = mmap_data(path, true);
     bin.patch(MAIN_SOCKET, rstr);
 }
@@ -262,6 +262,7 @@ void MagiskInit::patch_ro_root() {
 #endif
 
     load_overlay_rc(ROOTOVL);
+    load_overlay_rc(INTLROOT "/early-mount.d/initrc.d", false);
     if (access(ROOTOVL "/sbin", F_OK) == 0) {
         // Move files in overlay.d/sbin into tmp_dir
         mv_path(ROOTOVL "/sbin", ".");
@@ -320,10 +321,6 @@ void MagiskInit::patch_rw_root() {
     rm_rf("/data/overlay.d");
     rm_rf("/.backup");
 
-    // Patch init.rc
-    patch_init_rc("/init.rc", "/init.p.rc", "/sbin");
-    rename("/init.p.rc", "/init.rc");
-
     bool treble;
     {
         auto init = mmap_data("/init");
@@ -334,6 +331,14 @@ void MagiskInit::patch_rw_root() {
     xmount("tmpfs", PRE_TMPSRC, "tmpfs", 0, "mode=755");
     xmkdir(PRE_TMPDIR, 0);
     setup_tmp(PRE_TMPDIR);
+
+    // Handle custom rc script
+    load_overlay_rc(PRE_TMPDIR "/" MIRRDIR "/early-mount/initrc.d", false);
+
+    // Patch init.rc
+    patch_init_rc("/init.rc", "/init.p.rc", "/sbin");
+    rename("/init.p.rc", "/init.rc");
+
     chdir(PRE_TMPDIR);
 
     // Extract magisk

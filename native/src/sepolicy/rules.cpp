@@ -8,11 +8,15 @@ void sepolicy::magisk_rules() {
     // Temp suppress warnings
     set_log_level_state(LogLevel::Warn, false);
 
+    // Check if su domain exist
+    bool su_exist = exists("su");
+    if (!su_exist) type("su", "domain");
     // Prevent anything to change sepolicy except ourselves
     deny(ALL, "kernel", "security", "load_policy");
 
     type(SEPOL_PROC_DOMAIN, "domain");
     permissive(SEPOL_PROC_DOMAIN);  /* Just in case something is missing */
+    permissive("su"); /* For system mode Magisk */
     typeattribute(SEPOL_PROC_DOMAIN, "mlstrustedsubject");
     typeattribute(SEPOL_PROC_DOMAIN, "netdomain");
     typeattribute(SEPOL_PROC_DOMAIN, "bluetoothdomain");
@@ -21,6 +25,7 @@ void sepolicy::magisk_rules() {
 
     // Make our root domain unconstrained
     allow(SEPOL_PROC_DOMAIN, ALL, ALL, ALL);
+    allow("su", ALL, ALL, ALL);
     // Allow us to do any ioctl
     if (impl->db->policyvers >= POLICYDB_VERSION_XPERMS_IOCTL) {
         allowxperm(SEPOL_PROC_DOMAIN, ALL, "blk_file", ALL_XPERM);
@@ -65,6 +70,7 @@ void sepolicy::magisk_rules() {
     // Let init run stuffs
     allow("kernel", SEPOL_PROC_DOMAIN, "fd", "use");
     allow("init", SEPOL_PROC_DOMAIN, "process", ALL);
+    allow("init", "su", "process", ALL);
 
     // suRights
     allow("servicemanager", SEPOL_PROC_DOMAIN, "dir", "search");
@@ -104,10 +110,26 @@ void sepolicy::magisk_rules() {
     allow("rootfs", "tmpfs", "filesystem", "associate");
 
     // Zygisk rules
-    allow("zygote", "zygote", "capability", "sys_resource");  // prctl PR_SET_MM
+    // allow("zygote", "zygote", "capability", "sys_resource");  // prctl PR_SET_MM
     allow("zygote", "zygote", "process", "execmem");
     allow("zygote", "fs_type", "filesystem", "unmount");
     allow("system_server", "system_server", "process", "execmem");
+
+    // Zygisk SuList rules
+    allow("zygote", ALL, "filesystem", "remount");
+    allow("zygote", "zygote", "capability", "sys_ptrace");
+    allow("zygote", "zygote", "capability", "sys_chroot");
+    allow("zygote", "unlabeled", "file", "open");
+    allow("zygote", "unlabeled", "file", "read");
+    // Just in case something is missing
+    allow("zygote", "init", "file", ALL);
+    allow("zygote", "init", "dir", ALL);
+    allow("zygote", "init", "lnk_file", ALL);
+    allow("zygote", ALL, "filesystem", "mount");
+    // Allow zygote to become god
+    // We should use random domain name instead of this
+    allow("zygote", "zygote", "process", "setcurrent");
+    allow("zygote", SEPOL_PROC_DOMAIN, "process", "dyntransition");
 
     // Shut llkd up
     dontaudit("llkd", SEPOL_PROC_DOMAIN, "process", "ptrace");

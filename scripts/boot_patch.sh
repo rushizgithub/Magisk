@@ -178,6 +178,11 @@ fi
 ./magiskboot compress=xz stub.apk stub.xz
 
 echo "KEEPVERITY=$KEEPVERITY" > config
+echo -n "RANDOMSEED=" > config
+# https://github.com/topjohnwu/Magisk/pull/6340#issuecomment-1287594661
+tr -dc A-Za-z0-9 </dev/urandom | head -c 8 >> config
+echo -ne "\n" >> config
+echo "KEEPVERITY=$KEEPVERITY" >> config
 echo "KEEPFORCEENCRYPT=$KEEPFORCEENCRYPT" >> config
 echo "RECOVERYMODE=$RECOVERYMODE" >> config
 if [ -n "$PREINITDEVICE" ]; then

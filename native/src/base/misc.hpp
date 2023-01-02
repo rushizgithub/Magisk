@@ -310,6 +310,3 @@ void exec_command_async(Args &&...args) {
     };
     exec_command(exec);
 }
-
-int gen_rand_str(char *buf, int len, bool varlen);
-

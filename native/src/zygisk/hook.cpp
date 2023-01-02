@@ -4,12 +4,19 @@
 #include <regex.h>
 #include <bitset>
 #include <list>
+#include <sys/prctl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
 #include <lsplt.hpp>
 
 #include <base.hpp>
 #include <flags.h>
 #include <daemon.hpp>
+#include <magisk.hpp>
+#include <selinux.hpp>
 
 #include "zygisk.hpp"
 #include "memory.hpp"
@@ -41,6 +48,8 @@ enum {
     SERVER_FORK_AND_SPECIALIZE,
     DO_REVERT_UNMOUNT,
     SKIP_FD_SANITIZATION,
+    DO_ALLOW,
+    ALLOWLIST_ENFORCED,
 
     FLAG_MAX
 };
@@ -151,22 +160,64 @@ DCL_HOOK_FUNC(int, fork) {
 
 // Unmount stuffs in the process's private mount namespace
 DCL_HOOK_FUNC(int, unshare, int flags) {
-    int res = old_unshare(flags);
-    if (g_ctx && (flags & CLONE_NEWNS) != 0 && res == 0 &&
-        // For some unknown reason, unmounting app_process in SysUI can break.
-        // This is reproducible on the official AVD running API 26 and 27.
-        // Simply avoid doing any unmounts for SysUI to avoid potential issues.
-        (g_ctx->info_flags & PROCESS_IS_SYS_UI) == 0) {
-        if (g_ctx->flags[DO_REVERT_UNMOUNT]) {
-            revert_unmount();
-        } else {
-            umount2("/system/bin/app_process64", MNT_DETACH);
-            umount2("/system/bin/app_process32", MNT_DETACH);
+    int res;
+    if (g_ctx && (flags & CLONE_NEWNS) != 0) {
+        if (g_ctx->flags[DO_ALLOW]) {
+            flags &= ~CLONE_NEWNS;
+            res = old_unshare(flags);
+            int clone_pid;
+            auto zygote_con = getcurrent();
+            int current_pid = getpid();
+            // switch to permissive context
+            if (setcurrent("u:r:" SEPOL_PROC_DOMAIN ":s0") == -1)
+                ZLOGE("unable to switch selinux context");
+            int pipe_fd[2];
+            if (pipe(pipe_fd) < 0) {
+                ZLOGE("cannot create pipe\n");
+                goto final_way;
+            }
+            clone_pid = fork();
+            if (clone_pid > 0) {
+                int i=0;
+                read(pipe_fd[0], &i, sizeof(i));
+                if (switch_mnt_ns(clone_pid) == 0) {
+                    ZLOGD("switched to root mount namespace PID=[%d]\n", clone_pid);
+                }
+                kill(clone_pid, SIGKILL);
+                waitpid(clone_pid, 0, 0);
+                close(pipe_fd[0]);
+                close(pipe_fd[1]);
+            } else if (clone_pid == 0) {
+                int i=0;
+                prctl(PR_SET_PDEATHSIG, SIGKILL);
+                if (switch_mnt_ns(1) == 0 && old_unshare(CLONE_NEWNS) == 0) {
+                    ZLOGD("created root mount namespace for PID=[%d]\n", current_pid);
+                    xmount("", "/", nullptr, MS_SLAVE | MS_REC, nullptr);
+                } else {
+                    switch_mnt_ns(current_pid);
+                    ZLOGE("unable to create root mount namespace\n");
+                }
+                write(pipe_fd[1], &i, sizeof(i));
+                while (true) pause();
+            } else {
+                ZLOGE("unable to switch to root mount namespace\n");
+            }
+            // restore old context, this should not always be failed
+            if (setcurrent(zygote_con.data()) == -1)
+                ZLOGE("unable to restore selinux context");
+            goto final_way;
         }
+        res = old_unshare(flags);
+        if (res == 0 && 
+             (g_ctx->flags[ALLOWLIST_ENFORCED] == false && g_ctx->flags[DO_REVERT_UNMOUNT])) {
+            revert_unmount();
+        }
+        final_way:
         // Restore errno back to 0
         errno = 0;
+        return res;
     }
-    return res;
+    return old_unshare(flags);
 }
 
 // Close logd_fd if necessary to prevent crashing
@@ -411,6 +462,43 @@ int sigmask(int how, int signum) {
     return sigprocmask(how, &set, nullptr);
 }
 
+void create_zygote_lock(int pid) {
+    int holder_pid = old_fork();
+    if (holder_pid < 0) {
+        ZLOGE("failed to create holder: %s\n", strerror(errno));
+    }
+    if (holder_pid != 0) return;
+    prctl(PR_SET_PDEATHSIG, SIGKILL);
+    if (getppid() == 1) exit(1);
+    int fd = zygisk_request(ZygiskRequest::SYSTEM_SERVER_FORKED);
+    do {
+        if (fd < 0) break;
+        write_int(fd, pid);
+        int lock_fd = recv_fd(fd);
+        if (lock_fd < 0) break;
+        ZLOGD("received lock fd in zygote:%d\n", lock_fd);
+        struct flock lock{
+                .l_type = F_RDLCK,
+                .l_whence = SEEK_SET,
+                .l_start = 0,
+                .l_len = 0
+        };
+        if (fcntl(lock_fd, F_SETLK, &lock) < 0) {
+            ZLOGE("failed to set lock in zygote: %s\n", strerror(errno));
+            write_int(fd, 1);
+            break;
+        }
+        write_int(fd, 0);
+        get_magiskd().close_log_pipe();
+        close(fd);
+        setprogname("lockholder");
+        while (true) {
+            pause();
+        }
+    } while (false);
+    close(fd);
+}
+
 void HookContext::fork_pre() {
     // Do our own fork before loading any 3rd party code
     // First block SIGCHLD, unblock after original fork is done
@@ -557,10 +645,32 @@ void HookContext::app_specialize_pre() {
         }
         env->ReleaseStringUTFChars(args.app->app_data_dir, app_data_dir);
     }
-    if ((info_flags & UNMOUNT_MASK) == UNMOUNT_MASK) {
-        ZLOGI("[%s] is on the denylist\n", process);
+    if ((info_flags & PROCESS_ON_ALLOWLIST) == PROCESS_ON_ALLOWLIST) {
+        ZLOGI("[%s] is on the allowlist\n", process);
+        flags[DO_ALLOW] = true;
+        // Ensure separated namespace, allow denylist to handle isolated process before Android 11
+        if (args.app->mount_external == 0 /* MOUNT_EXTERNAL_NONE */) {
+            args.app->mount_external = 1 /* MOUNT_EXTERNAL_DEFAULT */;
+        }
+    } else {
+        logging_muted = true;
+    }
+    if ((info_flags & ALLOWLIST_ENFORCING) == ALLOWLIST_ENFORCING) {
+        flags[ALLOWLIST_ENFORCED] = true;
+    } else if ((info_flags & UNMOUNT_MASK) == UNMOUNT_MASK) {
+        ZLOGI("[%s] is on the hidelist\n", process);
+        logging_muted = true;
         flags[DO_REVERT_UNMOUNT] = true;
-    } else if (fd >= 0) {
+        // Ensure separated namespace, allow denylist to handle isolated process before Android 11
+        if (args.app->mount_external == 0 /* MOUNT_EXTERNAL_NONE */) {
+            // Only apply the fix before Android 11, as it can cause undefined behaviour in later versions
+            char sdk_ver_str[92]; // PROPERTY_VALUE_MAX
+            if (__system_property_get("ro.build.version.sdk", sdk_ver_str) && atoi(sdk_ver_str) < 30) {
+                args.app->mount_external = 1 /* MOUNT_EXTERNAL_DEFAULT */;
+            }
+        }
+    }
+    if (fd >= 0) {
         run_modules_pre(module_fds);
     }
     close(fd);
@@ -681,6 +791,9 @@ void HookContext::nativeForkSystemServer_post() {
     if (is_child()) {
         ZLOGV("post forkSystemServer\n");
         server_specialize_post();
+    }
+    if (pid > 0) {
+        create_zygote_lock(pid);
     }
     fork_post();
 }

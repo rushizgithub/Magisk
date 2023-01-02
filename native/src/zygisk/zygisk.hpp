@@ -6,10 +6,11 @@
 #include <vector>
 #include <daemon.hpp>
 
-#define MAGISKTMP_ENV  "MAGISKTMP"
+#include "var.hpp"
 
-#define HIJACK_BIN64   "/system/bin/appwidget"
-#define HIJACK_BIN32   "/system/bin/bu"
+extern std::string orig_native_bridge;
+extern std::string nb_replace_lib;
+extern std::string nb_replace_bak;
 
 namespace ZygiskRequest {
 enum : int {
@@ -18,7 +19,7 @@ enum : int {
     GET_LOG_PIPE,
     CONNECT_COMPANION,
     GET_MODDIR,
-    PASSTHROUGH,
+    SYSTEM_SERVER_FORKED,
     END
 };
 }
@@ -60,3 +61,6 @@ inline int zygisk_request(int req) {
     write_int(fd, req);
     return fd;
 }
+
+void on_zygote_restart();
+
