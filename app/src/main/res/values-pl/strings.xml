@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--Sections-->
     <string name="modules">Moduły</string>
     <string name="superuser">Superuser</string>
@@ -9,9 +9,8 @@
     <string name="section_home">Strona główna</string>
     <string name="section_theme">Motywy</string>
     <string name="denylist">Lista odmów</string>
-
     <!--Home-->
-    <string name="no_connection">Połączenie niedostępne</string>
+    <string name="no_connection">Brak połączenia</string>
     <string name="app_changelog">Dziennik zmian</string>
     <string name="loading">Ładowanie…</string>
     <string name="update">Zaktualizuj</string>
@@ -19,10 +18,8 @@
     <string name="hide">Ukryj</string>
     <string name="home_package">Pakiet</string>
     <string name="home_app_title">Aplikacja</string>
-
     <string name="home_notice_content">Pobieraj Magisk tylko z oficjalnej strony GitHub. Pliki z nieznanych źródeł mogą być szkodliwe!</string>
     <string name="home_support_title">Wesprzyj nas</string>
-    <string name="home_follow_title">Śledź nas</string>
     <string name="home_item_source">Źródło</string>
     <string name="home_support_content">Magisk jest i zawsze będzie darmowy i otwarty. Niemniej możesz nam pokazać, że Ci zależy, wysyłając drobną darowiznę.</string>
     <string name="home_installed_version">Zainstalowany</string>
@@ -30,7 +27,6 @@
     <string name="invalid_update_channel">Nieprawidłowy kanał aktualizacji</string>
     <string name="uninstall_magisk_title">Odinstaluj Magisk</string>
     <string name="uninstall_magisk_msg">Wszystkie moduły zostaną wyłączone/usunięte!\nRoot zostanie usunięty!\nTwoje dane mogą zostać potencjalnie zaszyfrowane, jeśli jeszcze nie są!</string>
-
     <!--Install-->
     <string name="keep_force_encryption">Zachowaj force encryption (wymuszenie szyfrowania)</string>
     <string name="keep_dm_verity">Zachowaj AVB 2.0/dm-verity (weryfikację rozruchu)</string>
@@ -49,7 +45,6 @@
     <string name="patch_file_msg">Wybierz obraz raw (*.img) lub plik tar ODIN (*.tar)</string>
     <string name="reboot_delay_toast">Ponowne uruchomienie za 5 sekund…</string>
     <string name="flash_screen_title">Instalacja</string>
-
     <!--Superuser-->
     <string name="su_request_title">Żądanie dostępu do Superusera</string>
     <string name="touch_filtered_warning">Ponieważ zapytanie o Superuser aplikacji jest przysłonięte, Magisk nie może zweryfikować twojej odpowiedzi.</string>
@@ -75,11 +70,9 @@
     <string name="su_revoke_msg">Potwierdzasz odwołanie uprawnień dla %1$s?</string>
     <string name="toast">Wyskakujące powiadomienie</string>
     <string name="none">Brak</string>
-
     <string name="superuser_toggle_notification">Powiadomienia</string>
     <string name="superuser_toggle_revoke">Odwołaj</string>
     <string name="superuser_policy_none">Żadna aplikacja nie poprosiła jeszcze o uprawnienia Superusera.</string>
-
     <!--Logs-->
     <string name="log_data_none">Logi są puste, spróbuj użyć aplikacji wymagających roota.</string>
     <string name="log_data_magisk_none">Logi Magisk są puste, to jest dziwne.</string>
@@ -88,15 +81,12 @@
     <string name="logs_cleared">Log został pomyślnie wyczyszczony.</string>
     <string name="pid">PID: %1$d</string>
     <string name="target_uid">Docelowy UID: %1$d</string>
-
     <!--SafetyNet-->
-
-    <!--MagiskHide -->
+    <!-- MagiskHide -->
     <string name="show_system_app">Pokaż aplikacje systemowe</string>
     <string name="show_os_app">Pokaż aplikacje OS</string>
     <string name="hide_filter_hint">Filtruj według nazwy</string>
     <string name="hide_search">Szukaj</string>
-
     <!--Module -->
     <string name="no_info_provided">(Nie umieszczono informacji)</string>
     <string name="reboot_userspace">Miękki reboot</string>
@@ -112,10 +102,6 @@
     <string name="suspend_text_riru">Moduł uśpiony ponieważ %1$s jest włączony</string>
     <string name="suspend_text_zygisk">Moduł uśpiony ponieważ %1$s jest wyłączony</string>
     <string name="zygisk_module_unloaded">Moduł Zygisk nie załadowany ze względu na niekompatybilność</string>
-    <string name="module_empty">Żaden moduł nie jest zainstalowany</string>
-    <string name="confirm_install">Zainstaloać moduł %1$s?</string>
-    <string name="confirm_install_title">Potwierdzenie instalacji</string>
-
     <!--Settings -->
     <string name="settings_dark_mode_title">Tryb motywu</string>
     <string name="settings_dark_mode_message">Wybierz tryb, który najbardziej ci odpowiada!</string>
@@ -174,7 +160,6 @@
     <string name="setting_add_shortcut_summary">Dodaj ładny skrót na ekranie głównym na wypadek, gdyby nazwa i ikona były trudne do rozpoznania po ukryciu aplikacji</string>
     <string name="settings_doh_title">DNS over HTTPS</string>
     <string name="settings_doh_description">Zapobiegaj zatruwaniu DNS (DNS poisoning) w niektórych krajach</string>
-
     <string name="multiuser_mode">Tryb wielu użytkowników (Multiuser)</string>
     <string name="settings_owner_only">Tylko właściciel urządzenia</string>
     <string name="settings_owner_manage">Zarządzanie przez właściciela urządzenia</string>
@@ -182,7 +167,6 @@
     <string name="owner_only_summary">Tylko właściciel ma dostęp do roota</string>
     <string name="owner_manage_summary">Tylko właściciel może zarządzać ustawieniami dostępu do roota i otrzymywać żądania dostępu</string>
     <string name="user_independent_summary">Każdy użytkownik ma niezależne ustawienia dostępu do roota</string>
-
     <string name="mount_namespace_mode">Tryb przestrzeni nazw montowania</string>
     <string name="settings_ns_global">Globalna przestrzeń nazw</string>
     <string name="settings_ns_requester">Dziedziczona przestrzeń nazw</string>
@@ -190,7 +174,6 @@
     <string name="global_summary">Wszystkie sesje roota będą używać globalnej przestrzeni nazw montowania</string>
     <string name="requester_summary">Sesje roota odziedziczą przestrzeń nazw od żądającego</string>
     <string name="isolate_summary">Każda sesja roota otrzyma własną, izolowaną przestrzeń nazw</string>
-
     <!--Notifications-->
     <string name="update_channel">Aktualizacja Magisk</string>
     <string name="progress_channel">Powiadomienia o postępach</string>
@@ -200,7 +183,6 @@
     <string name="magisk_update_title">Aktualizacja Magisk dostępna!</string>
     <string name="updated_title">Magisk zaktualizowany</string>
     <string name="updated_text">Naciśnij aby otworzyć applikację</string>
-
     <!--Toasts, Dialogs-->
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
@@ -221,7 +203,6 @@
     <string name="setup_fail">Konfiguracja nieudana</string>
     <string name="env_fix_title">Wymaga dodatkowej konfiguracji</string>
     <string name="env_fix_msg">Twoje urządzenie wymaga dodatkowej konfiguracji aby Magisk działał właściwie. Czy chcesz kontynuować i uruchomić ponownie?</string>
-    <string name="env_full_fix_msg">Twoje urządzenie musi wgrać ponowanie Magisk, aby działać poprawnie. Proszę przeinstaluj Magisk w aplikacji, tryb Recovery nie potrafi poprawnie rozpoznać urządzenia.</string>
     <string name="setup_msg">Uruchamianie środowiska konfiguracji…</string>
     <string name="authenticate">Uwierzytelnianie</string>
     <string name="unsupport_magisk_title">Nieobsługiwana wersja Magisk</string>
@@ -233,12 +214,51 @@
     <string name="unsupport_nonroot_stub_msg">Ta aplikacja nie może dłużej działać w trybie ukrycia jako że root został utracony. Proszę przywrócić ją do oryginalnego stanu.</string>
     <string name="unsupport_nonroot_stub_title">@string/settings_restore_app_title</string>
     <string name="external_rw_permission_denied">Zezwól na dostęp do pamięci wewnętrznej, aby włączyć tę funkcję.</string>
-    <string name="post_notifications_denied">Zezwól na otrzymywanie powiadomień, aby aktywować tą funkcję</string>
     <string name="install_unknown_denied">Zezwól na "Instaluj z nieznanych źródeł" by włączyć tą funkcję</string>
     <string name="add_shortcut_title">Utwórz skrót na ekranie głównym</string>
     <string name="add_shortcut_msg">Po ukryciu tej aplikacji, jej nazwa i ikona może być trudna do rozpoznania. Czy chcesz dodać ładny skrót na ekranie głównym?</string>
     <string name="app_not_found">Nie znaleziono aplikacji do wykonania tej czynności</string>
     <string name="reboot_apply_change">Uruchom ponownie by zastosować zmiany</string>
     <string name="restore_app_confirmation">To przywróci ukrytą aplikację z powrotem do orginalnej aplikacji. Czy na pewno chcesz to zrobić?</string>
-
+    <string name="home_follow_title">Śledź nas</string>
+    <string name="module_empty">Brak zainstalowanych modułów</string>
+    <string name="post_notifications_denied">Aby włączyć tę funkcję, przyznaj uprawnienia do powiadomień</string>
+    <string name="direct_install_system">Bezpośrednia instalacja na partycję systemową</string>
+    <string name="reboot_core_only">Zrestartuj do trybu rdzenia</string>
+    <string name="settings_hidelist_config_title">Konfiguracja MagiskHide</string>
+    <string name="settings_hidelist_config_summary">Wybierz procesy, które mają zostać uwzględnione na liście ukrytych</string>
+    <string name="settings_magiskhide_title">MagiskHide</string>
+    <string name="settings_magiskhide_summary">Ukryj Magisk przed różnymi formami detekcji</string>
+    <string name="settings_unload_magisk_title">Wyłącz Magisk</string>
+    <string name="settings_unload_magisk_summary">Tymczasowo zatrzymaj Magisk daemon i wycofaj wszystkie jego modyfikacje</string>
+    <string name="settings_unload_magisk_toast">Magisk został tymczasowo wyłączony. Uruchom ponownie urządzenie aby go przywrócić</string>
+    <string name="settings_riru_summary">Dodaj moduł \"Riru Core\"</string>
+    <string name="settings_riru_toast">Dodano moduł \"Riru Core\"</string>
+    <string name="settings_riru_title">Riru core</string>
+    <string name="settings_magiskhide_whitelist_title">Biała lista MagiskHide</string>
+    <string name="settings_magiskhide_whitelist_title2">MagiskHideAll</string>
+    <string name="settings_magiskhide_whitelist_summary">Dostęp do Magisk mogą uzyskać tylko aplikacje, którym wcześniej nadano uprawnienia roota. Włączenie tej opcji może spowodować niestabilność systemu, a nawet gorzej. Włącz tę opcję tylko w razie potrzeby.</string>
+    <string name="settings_magiskhide_dualspace_title">MagiskHide Druga przestrzeń</string>
+    <string name="settings_magiskhide_dualspace_summary">Ukryj Magisk przed wszystkimi aplikacjami w drugiej przestrzeni</string>
+    <string name="settings_anti_bootloop_title">Ochrona przed bootloopem</string>
+    <string name="settings_magiskhide_whitelist_summary2">(Tylko dla debugowania) Wymuś MagiskHide obsługuje wszystkie aplikacje z wyjątkiem aplikacji znajdujących się na liście superużytkowników</string>
+    <string name="settings_coreonly_title">Tryb Core-only</string>
+    <string name="settings_anti_bootloop_summary">Uruchom ponownie w trybie core-only jeśli proces zygoty nie uruchomi się kilka razy</string>
+    <string name="settings_coreonly_summary">Tylko główne funkcje jak MagiskSU (dostęp do roota) i MagiskHide są dostępne oraz żadne moduły nie zostaną załadowane w trybie core-only. Ponowne uruchomienie urządzenia jest wymagane aby wprowadzić zmiany.</string>
+    <string name="settings_clean_hidelist_summary">Usuń wszystkie nieistniejące i odinstalowane aplikacje z listy ukrywania</string>
+    <string name="settings_clean_hidelist_toast">Lista ukrywania została wyczyszczona</string>
+    <string name="settings_sulist_title">Wymuś SuList</string>
+    <string name="settings_sulist">SuList</string>
+    <string name="settings_clean_hidelist_title">Wyczyść listę ukrywania</string>
+    <string name="settings_sulist_config_title">Konfiguruj SuList</string>
+    <string name="settings_sulist_config_summary">Wybierz procesy które chcesz dołączyć do SuList</string>
+    <string name="settings_sulist_summary">Magisk jest widoczny tylko dla procesów sulist</string>
+    <string name="settings_sulist_error_magiskhide">Ta funkcja wymaga włączenia MagiskHide</string>
+    <string name="settings_sulist_enforced">SuList jest wymuszone</string>
+    <string name="settings_sulist_error_zygisk">Ta funkcja nie może współistnieć z zygisk</string>
+    <string name="settings_logcat_monitor_title">Monitoruj logcat</string>
+    <string name="new_zygisk_loader">Nowy sposób załadowania Zygisk</string>
+    <string name="settings_new_zygisk_loader_summary">Użyj nowego sposobu ładowania Zygisk. Ta funkcja jestw fazie testowania i może zepsuć niektóre moduły.</string>
+    <string name="settings_logcat_monitor_no_need">Niepotrzebne gdy Zygisk jest włączony</string>
+    <string name="settings_logcat_monitor_summary">Monitoruj logcat zamiast ptrace, aby wykryć proces tworzenia aplikacji. Jest mniej wykrywalny niż ptrace, ale nie jest całkowicie niewykrywalny.</string>
 </resources>

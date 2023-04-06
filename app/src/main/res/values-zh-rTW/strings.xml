@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--Sections-->
     <string name="modules">模組</string>
     <string name="superuser">超級使用者</string>
@@ -9,7 +9,6 @@
     <string name="section_home">首頁</string>
     <string name="section_theme">主題</string>
     <string name="denylist">黑名單</string>
-
     <!--Home-->
     <string name="no_connection">無法連線</string>
     <string name="app_changelog">變更紀錄</string>
@@ -19,7 +18,6 @@
     <string name="hide">隱藏</string>
     <string name="home_package">套件</string>
     <string name="home_app_title">應用程式</string>
-
     <string name="home_notice_content">請從官方的 Github 網頁下載 Magisk。從未知來源下載的檔案可能懷有惡意！</string>
     <string name="home_support_title">支持開發</string>
     <string name="home_follow_title">追蹤我們</string>
@@ -30,7 +28,6 @@
     <string name="invalid_update_channel">無效的更新頻道</string>
     <string name="uninstall_magisk_title">解除安裝 Magisk</string>
     <string name="uninstall_magisk_msg">所有模組將會被停用並移除！\nRoot 將會被移除且未被加密的資料將可能被加密！</string>
-
     <!--Install-->
     <string name="keep_force_encryption">保持強制加密</string>
     <string name="keep_dm_verity">保持 AVB 2.0/dm-verity</string>
@@ -49,7 +46,6 @@
     <string name="patch_file_msg">請選取未修改過的映像檔 (*.img) 或 Odin 的 TAR 檔案 (*.tar) 或 payload.bin (*.bin)</string>
     <string name="reboot_delay_toast">將在 5 秒後重新啟動……</string>
     <string name="flash_screen_title">安裝</string>
-
     <!--Superuser-->
     <string name="su_request_title">超級使用者要求</string>
     <string name="touch_filtered_warning">由於某個應用程式遮蔽了超級使用者要求的視窗，因此 Magisk 無法驗證您的回應</string>
@@ -75,11 +71,9 @@
     <string name="su_revoke_msg">確定撤銷 %1$s 的權限？</string>
     <string name="toast">快顯通知</string>
     <string name="none">無</string>
-
     <string name="superuser_toggle_notification">通知</string>
     <string name="superuser_toggle_revoke">撤銷</string>
     <string name="superuser_policy_none">目前沒有任何應用程式要求超級使用者的權限。</string>
-
     <!--Logs-->
     <string name="log_data_none">您的紀錄是空的，請嘗試使用具備需要超級使用者權限的應用程式。</string>
     <string name="log_data_magisk_none">Magisk 的紀錄是空的，很奇怪……</string>
@@ -88,15 +82,12 @@
     <string name="logs_cleared">已成功清除紀錄</string>
     <string name="pid">PID: %1$d</string>
     <string name="target_uid">目標 UID: %1$d</string>
-
     <!--SafetyNet-->
-
     <!-- MagiskHide -->
     <string name="show_system_app">顯示系統應用程式</string>
     <string name="show_os_app">顯示作業系统</string>
     <string name="hide_filter_hint">過濾名稱</string>
     <string name="hide_search">搜尋</string>
-
     <!--Module -->
     <string name="no_info_provided">（未提供資訊）</string>
     <string name="reboot_userspace">快速重新啟動</string>
@@ -113,9 +104,6 @@
     <string name="suspend_text_zygisk">此模組因 %1$s 未啟用而暫停運作</string>
     <string name="zygisk_module_unloaded">此模組因不相容 Zygisk 而未載入</string>
     <string name="module_empty">未安裝任何模組</string>
-    <string name="confirm_install">安裝模組 %1$s？</string>
-    <string name="confirm_install_title">安裝確認</string>
-
     <!--Settings -->
     <string name="settings_dark_mode_title">主題模式</string>
     <string name="settings_dark_mode_message">選擇最符合您風格的模式！</string>
@@ -174,7 +162,6 @@
     <string name="setting_add_shortcut_summary">在主螢幕中新增一個精緻的捷徑。防止隱藏 Magisk 以後，其名稱與圖示將難以辨識</string>
     <string name="settings_doh_title">安全化的網域解析(DoH)</string>
     <string name="settings_doh_description">解決某些地區的 DNS 中毒問題</string>
-
     <string name="multiuser_mode">多重使用者模式</string>
     <string name="settings_owner_only">僅限裝置擁有者</string>
     <string name="settings_owner_manage">由裝置擁有者管理</string>
@@ -182,7 +169,6 @@
     <string name="owner_only_summary">僅限裝置擁有者可使用 Root 權限</string>
     <string name="owner_manage_summary">僅限裝置擁有者可管理及接收 Root 權限的要求提示</string>
     <string name="user_independent_summary">每個使用者皆擁有獨立的 Root 權限規則</string>
-
     <string name="mount_namespace_mode">掛接命名空間模式</string>
     <string name="settings_ns_global">全域命名空間</string>
     <string name="settings_ns_requester">繼承命名空間</string>
@@ -190,7 +176,6 @@
     <string name="global_summary">所有 Root 工作階段皆使用全域的命名空間</string>
     <string name="requester_summary">所有 Root 工作階段皆繼承原程式的命名空間</string>
     <string name="isolate_summary">所有 Root 工作階段皆擁有獨立的命名空間</string>
-
     <!--Notifications-->
     <string name="update_channel">Magisk 更新</string>
     <string name="progress_channel">進度通知</string>
@@ -200,7 +185,6 @@
     <string name="magisk_update_title">Magisk 有可用的更新！</string>
     <string name="updated_title">Magisk 已完成更新</string>
     <string name="updated_text">點選即可開啟應用程式</string>
-
     <!--Toasts, Dialogs-->
     <string name="yes">是</string>
     <string name="no">否</string>
@@ -221,7 +205,6 @@
     <string name="setup_fail">安裝失敗</string>
     <string name="env_fix_title">需要修復執行環境</string>
     <string name="env_fix_msg">缺少讓 Magisk 正常執行所需的檔案。請您同意讓 Magisk 額外下載安裝包進行修復安裝，修復完成後將自動重新啟動。請問您是否繼續？</string>
-    <string name="env_full_fix_msg">需要重新安裝才能使 Magisk 正常工作。請在應用程式內重新安裝，recovery 模式無法正確獲取設備訊息。</string>
     <string name="setup_msg">正在修復執行環境……</string>
     <string name="authenticate">驗證</string>
     <string name="unsupport_magisk_title">不支援的 Magisk 版本</string>
@@ -239,8 +222,7 @@
     <string name="app_not_found">沒有可以處理這個動作的應用程式</string>
     <string name="reboot_apply_change">重新啟動裝置以套用設定變更</string>
     <string name="restore_app_confirmation">這將會還原隱藏的應用程式至原始。請問您確定要執行？</string>
-
-<!--Delta-->
+    <!--Delta-->
     <string name="direct_install_system">安裝到系統分區</string>
     <string name="reboot_core_only">重啟到Core-Only模式</string>
     <string name="settings_anti_bootloop_summary">Zygote應用程式多次啟動失敗會重啟到Core-Only模式</string>
@@ -272,5 +254,9 @@
     <string name="settings_unload_magisk_summary">暫時停止 Magisk 守護應用程式並恢復 Magisk 所做的更改</string>
     <string name="settings_unload_magisk_title">禁用 Magisk</string>
     <string name="settings_unload_magisk_toast">Magisk已被暫時禁用，重啟手機即可恢復</string>
-
+    <string name="new_zygisk_loader">新Zygisk加載器</string>
+    <string name="settings_new_zygisk_loader_summary">使用新的方式加載 Zygisk，此功能是實驗性的，它可以hook一些掛鉤模塊</string>
+    <string name="settings_logcat_monitor_title">監控logcat</string>
+    <string name="settings_logcat_monitor_summary">監視 logcat 而不是 ptrace 來檢測應用程序進程的創建，它不如 ptrace 可檢測，且不可靠。</string>
+    <string name="settings_logcat_monitor_no_need">啟用 Zygisk 時不需要</string>
 </resources>

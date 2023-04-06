@@ -1,39 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--Sections-->
     <string name="modules">Mô-đun</string>
-    <string name="superuser">Superuser</string>
+    <string name="superuser">Siêu người dùng</string>
     <string name="logs">Nhật ký</string>
     <string name="settings">Cài đặt</string>
     <string name="install">Cài đặt</string>
     <string name="section_home">Trang chủ</string>
     <string name="section_theme">Chủ đề</string>
     <string name="denylist">Danh sách loại trừ</string>
-
     <!--Home-->
     <string name="no_connection">Không có kết nối</string>
-    <string name="app_changelog">Changelog</string>
+    <string name="app_changelog">Nhật ký thay đổi</string>
     <string name="loading">Đang tải…</string>
     <string name="update">Cập nhật</string>
     <string name="not_available">Không có sẵn</string>
     <string name="hide">Ẩn</string>
     <string name="home_package">Gói</string>
     <string name="home_app_title">Ứng dụng</string>
-
     <string name="home_notice_content">Chỉ nên tải Magisk từ trang GitHub chính thức. Tải tệp từ các nguồn không rõ có thể gây hại!</string>
     <string name="home_support_title">Hỗ trợ chúng tôi</string>
     <string name="home_item_source">Nguồn</string>
-    <string name="home_support_content">Magisk sẽ, và luôn luôn là, miễn phí và mã nguồn mở. Tuy nhiên, bạn có thể cho chúng tôi thấy rằng bạn quan tâm bằng cách gửi một khoản đóng góp nhỏ.</string>
+    <string name="home_support_content">Magisk sẽ, và luôn là, miễn phí và mã nguồn mở. Tuy nhiên, bạn có thể cho chúng tôi thấy rằng bạn quan tâm bằng cách gửi một khoản đóng góp nhỏ.</string>
     <string name="home_installed_version">Cài đặt</string>
     <string name="home_latest_version">Mới nhất</string>
     <string name="invalid_update_channel">Kênh cập nhật không hợp lệ</string>
     <string name="uninstall_magisk_title">Gỡ cài đặt Magisk</string>
     <string name="uninstall_magisk_msg">Tất cả các mô-đun sẽ bị tắt hoặc bị xóa!\nRoot sẽ bị gỡ bỏ\nPhân vùng data đã tắt mã hóa thông qua Magisk sẽ bị mã hóa lại!</string>
-
     <!--Install-->
     <string name="keep_force_encryption">Giữ bắt buộc mã hóa</string>
     <string name="keep_dm_verity">Giữ AVB 2.0/dm-verity</string>
-     <string name="patch_vbmeta">Vá vbmeta trong boot image</string>
+    <string name="patch_vbmeta">Vá vbmeta trong boot image</string>
     <string name="recovery_mode">Chế độ Recovery</string>
     <string name="install_options_title">Tùy chọn</string>
     <string name="install_method_title">Phương pháp</string>
@@ -48,7 +45,6 @@
     <string name="patch_file_msg">Chọn đĩa ảnh (*.img) hoặc tệp tarfile ODIN (*.tar)</string>
     <string name="reboot_delay_toast">Khởi động lại sau 5 giây…</string>
     <string name="flash_screen_title">Cài đặt</string>
-
     <!--Superuser-->
     <string name="su_request_title">Yêu cầu Superuser</string>
     <string name="touch_filtered_warning">Vì một ứng dụng đang che phủ yêu cầu Superuser, Magisk không thể xác minh phản hồi của bạn</string>
@@ -71,14 +67,12 @@
     <string name="su_snack_log_on">Ghi nhật ký %1$s được bật</string>
     <string name="su_snack_log_off">Ghi nhật ký %1$s bị vô hiệu hóa</string>
     <string name="su_revoke_title">Thu hồi?</string>
-    <string name="su_revoke_msg">Xác nhận thu hồi quyền %1$s?</string>
+    <string name="su_revoke_msg">Xác nhận thu hồi quyền %1$s, đúng chứ</string>
     <string name="toast">Thông báo nổi</string>
     <string name="none">Không có</string>
-
     <string name="superuser_toggle_notification">Thông báo</string>
     <string name="superuser_toggle_revoke">Thu hồi</string>
     <string name="superuser_policy_none">Chưa có ứng dụng nào yêu cầu Superuser.</string>
-
     <!--Logs-->
     <string name="log_data_none">Nhật ký của bạn đang trống, hãy thử sử dụng các ứng dụng root của bạn nhiều hơn</string>
     <string name="log_data_magisk_none">Nhật ký Magisk trống, điều đó thật kỳ lạ</string>
@@ -87,16 +81,12 @@
     <string name="logs_cleared">Đã xóa nhật ký thành công</string>
     <string name="pid">PID: %1$d</string>
     <string name="target_uid">UID mục tiêu: %1$d</string>
-
     <!--SafetyNet-->
-
     <!--MagiskHide-->
     <string name="show_system_app">Hiển thị các ứng dụng hệ thống</string>
     <string name="show_os_app">Hiển thị các ứng dụng hệ điều hành</string>
     <string name="hide_filter_hint">Lọc theo tên</string>
     <string name="hide_search">Tìm kiếm</string>
-    
-
     <!--Module-->
     <string name="no_info_provided">(Không cung cấp thông tin)</string>
     <string name="reboot_userspace">Khởi động lại không gian người dùng</string>
@@ -112,9 +102,7 @@
     <string name="suspend_text_riru">Mô-đun bị vô hiệu hóa vì %1$s được bật</string>
     <string name="suspend_text_zygisk">Mô-đun bị vô hiệu hóa vì %1$s không được bật</string>
     <string name="zygisk_module_unloaded">Không thể tải mô-đun Zygisk vì không tương thích</string>
-    <string name="module_empty">Chưa có mô-đun nào được cài đặt!</string>
-
-
+    <string name="module_empty">Chưa có mô-đun nào được cài đặt</string>
     <!--Settings-->
     <string name="settings_dark_mode_title">Chế độ chủ đề</string>
     <string name="settings_dark_mode_message">Chọn chế độ phù hợp nhất với phong cách của bạn!</string>
@@ -142,7 +130,7 @@
     <string name="settings_denylist_error">Tính năng này yêu cầu %1$s được bật</string>
     <string name="settings_denylist_config_title">Cấu hình DenyList</string>
     <string name="settings_denylist_config_summary">Chọn các quy trình được đưa vào DenyList</string>
-    <string name="settings_hosts_title">Systemless hosts</string>
+    <string name="settings_hosts_title">Máy chủ không có hệ thống (Systemless hosts)</string>
     <string name="settings_hosts_summary">Hỗ trợ systemless hosts cho các ứng dụng chặn quảng cáo</string>
     <string name="settings_hosts_toast">Đã thêm mô-đun systemless hosts</string>
     <string name="settings_app_name_hint">Tên mới</string>
@@ -172,8 +160,7 @@
     <string name="settings_customization">Tùy biến</string>
     <string name="setting_add_shortcut_summary">Thêm một phím tắt đẹp vào màn hình trong trường hợp khó tìm ra tên và biểu tượng sau khi ẩn ứng dụng</string>
     <string name="settings_doh_title">DNS over HTTPS</string>
-    <string name="settings_doh_description">Workaround DNS poisoning in some nations</string>
-
+    <string name="settings_doh_description">Giải pháp poisoning DNS ở một số quốc gia</string>
     <string name="multiuser_mode">Chế độ đa người dùng</string>
     <string name="settings_owner_only">Chỉ chủ sở hữu thiết bị</string>
     <string name="settings_owner_manage">Chủ sở hữu thiết bị được quản lý</string>
@@ -181,7 +168,6 @@
     <string name="owner_only_summary">Chỉ chủ sở hữu mới có quyền truy cập root</string>
     <string name="owner_manage_summary">Chỉ chủ sở hữu mới có thể quản lý quyền truy cập root và nhận lời nhắc yêu cầu</string>
     <string name="user_independent_summary">Mỗi người dùng có các quy tắc root riêng biệt của riêng mình</string>
-
     <string name="mount_namespace_mode">Chế độ cho Mount namespace</string>
     <string name="settings_ns_global">Không gian tên chung</string>
     <string name="settings_ns_requester">Không gian tên kế thừa</string>
@@ -189,7 +175,6 @@
     <string name="global_summary">Tất cả các phiên root sử dụng không gian tên gắn kết chung</string>
     <string name="requester_summary">Phiên root sẽ kế thừa không gian tên của người yêu cầu của họ</string>
     <string name="isolate_summary">Mỗi phiên root sẽ có không gian tên riêng biệt</string>
-
     <!--Thông báo-->
     <string name="update_channel">Cập nhật Magisk</string>
     <string name="progress_channel">Thông báo tiến độ</string>
@@ -199,7 +184,6 @@
     <string name="magisk_update_title">Cập nhật Magisk có sẵn!</string>
     <string name="updated_title">Đã cập nhật Magisk</string>
     <string name="updated_text">Chạm để mở ứng dụng</string>
-
     <!--Toasts, Dialogs-->
     <string name="yes">Có</string>
     <string name="no">Không</string>
@@ -213,7 +197,7 @@
     <string name="hide_app_title">Đang ẩn ứng dụng Magisk…</string>
     <string name="open_link_failed_toast">Không tìm thấy ứng dụng nào để mở liên kết</string>
     <string name="complete_uninstall">Hoàn thành Gỡ cài đặt</string>
-    <string name="restore_img">Khôi phục đĩa ảnh boot (boot image)</string>
+    <string name="restore_img">Khôi phục đĩa ảnh boot image</string>
     <string name="restore_img_msg">Đang khôi phục…</string>
     <string name="restore_done">Đã khôi phục xong!</string>
     <string name="restore_fail">Bản sao lưu gốc không tồn tại!</string>
@@ -237,7 +221,6 @@
     <string name="app_not_found">Không tìm thấy ứng dụng nào để xử lý hành động này</string>
     <string name="reboot_apply_change">Khởi động lại để áp dụng các thay đổi</string>
     <string name="restore_app_confirmation">Điều này sẽ khôi phục ứng dụng ẩn về nguyên bản. Bạn chắc chắn muốn làm điều này chứ?</string>
-
     <!--Delta-->
     <string name="direct_install_system">Cài đặt trực tiếp vào phân vùng hệ thống</string>
     <string name="settings_hidelist_config_title">Cấu hình MagiskHide</string>
@@ -269,9 +252,14 @@
     <string name="settings_sulist_error_magiskhide">Tính năng này cần MagiskHide phải được bật</string>
     <string name="settings_sulist_enforced">SuList đang thực thi</string>
     <string name="new_zygisk_loader">Trình tải Zygisk mới</string>
-    <string name="settings_new_zygisk_loader_summary">Sử dụng cách mới để tải Zygisk. Tính năng này chỉ là thử nghiệm và nó có thể phá vỡ hooking module</string>
+    <string name="settings_new_zygisk_loader_summary">Sử dụng cách mới để tải Zygisk. Tính năng này chỉ là thử nghiệm và nó có thể phá vỡ hooking module.</string>
     <string name="settings_logcat_monitor_title">Theo dõi logcat</string>
     <string name="settings_logcat_monitor_summary">Theo dõi logcat thay vì ptrace Zygote để phát hiện các ứng dụng khởi động. Ít bị phát hiện hơn nhưng không tin cậy.</string>
-    <string name="settings_logcat_monitor_no_need">No need when Zygisk is enabled</string>
-
+    <string name="settings_logcat_monitor_no_need">Không cần khi Zygisk được kích hoạt</string>
+    <string name="home_follow_title">Theo dõi chúng tôi</string>
+    <string name="post_notifications_denied">Cấp quyền thông báo để kích hoạt chức năng này</string>
+    <string name="settings_magiskhide_title">MagiskHide</string>
+    <string name="settings_magiskhide_whitelist_title">Danh sách trắng MagiskHide</string>
+    <string name="settings_magiskhide_whitelist_title2">Ẩn toàn bộ Magisk</string>
+    <string name="settings_magiskhide_dualspace_title">không gian kép MagiskHide</string>
 </resources>
