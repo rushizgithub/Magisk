@@ -216,10 +216,16 @@ void mount_mirrors() {
                 });
                 if (!rw) continue;
                 string preinit_dir = resolve_preinit_dir(info.target.data());
+                string early_mnt_dir = resolve_early_mount_dir(info.target.data());
+                //
                 xmkdir(preinit_dir.data(), 0700);
+                xmkdir(early_mnt_dir.data(), 0700);
+                xmkdir((early_mnt_dir + "/initrc.d").data(), 0700);
+                //
                 auto mirror_dir = MAGISKTMP + "/" PREINITMIRR;
                 if ((mounted = mount_mirror(preinit_dir, mirror_dir))) {
                     xmount(nullptr, mirror_dir.data(), nullptr, MS_UNBINDABLE, nullptr);
+                    xsymlink(early_mnt_dir.data(), (MAGISKTMP + "/" EARLYMNTRW).data());
                     break;
                 }
             }

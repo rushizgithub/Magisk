@@ -116,8 +116,6 @@ void revert_unmount(int pid) {
         }
     }
 
-    if (targets.empty()) return;
-
     auto last_target = *targets.cbegin() + '/';
     for (auto iter = next(targets.cbegin()); iter != targets.cend();) {
         if (iter->starts_with(last_target)) {
@@ -129,5 +127,12 @@ void revert_unmount(int pid) {
 
     for (auto &s : targets)
         lazy_unmount(s.data());
+
+    // Unmount early-mount.d files
+    for (auto &info: parse_mount_info("self")) {
+        if (info.source == "early-mount.d") { // bind mount from early-mount
+            lazy_unmount(info.target.data());
+        }
+    }
 }
 
