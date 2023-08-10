@@ -214,19 +214,6 @@ public:
         const string src = MAGISKTMP + "/" + name();
         if (access(src.data(), F_OK))
             return;
-
-        const string &dir_name = parent()->node_path();
-        if (name() == "magisk") {
-            for (int i = 0; applet_names[i]; ++i) {
-                string dest = dir_name + "/" + applet_names[i];
-                VLOGD("create", "./magisk", dest.data());
-                xsymlink("./magisk", dest.data());
-            }
-        } else {
-            string dest = dir_name + "/supolicy";
-            VLOGD("create", "./magiskpolicy", dest.data());
-            xsymlink("./magiskpolicy", dest.data());
-        }
         create_and_mount("magisk", src);
         xmount(nullptr, node_path().data(), nullptr, MS_REMOUNT | MS_BIND | MS_RDONLY, nullptr);
     }
@@ -240,13 +227,13 @@ static void inject_magisk_bins(root_node *system) {
     }
 
     // Insert binaries
+    bin->insert(new magisk_node("magisk32"));
+    bin->insert(new magisk_node("magisk64"));
     bin->insert(new magisk_node("magisk"));
     bin->insert(new magisk_node("magiskpolicy"));
-
-    // Also delete all applets to make sure no modules can override it
+    bin->insert(new magisk_node("supolicy"));
     for (int i = 0; applet_names[i]; ++i)
-        delete bin->extract(applet_names[i]);
-    delete bin->extract("supolicy");
+        bin->insert(new magisk_node(applet_names[i]));
 }
 
 #include <embed.hpp>
@@ -398,11 +385,9 @@ void load_modules() {
         system->collect_module_files(module, fd);
         close(fd);
     }
-    if (MAGISKTMP != "/sbin" || !check_envpath("/sbin")) {
-        // Need to inject our binaries into /system/bin
-        LOGD("su_mount: load magisk files\n");
-        inject_magisk_bins(system);
-    }
+
+    LOGD("su_mount: inject magisk executable\n");
+    inject_magisk_bins(system);
 
     // Mount on top of modules to enable zygisk
     if (zygisk_enabled) {
@@ -473,11 +458,9 @@ void su_mount() {
         system->collect_module_files(module, fd);
         close(fd);
     }
-    if (MAGISKTMP != "/sbin" || !check_envpath("/sbin")) {
-        // Need to inject our binaries into /system/bin
-        LOGD("su_mount: load magisk files\n");
-        inject_magisk_bins(system);
-    }
+
+    LOGD("su_mount: inject magisk executable\n");
+    inject_magisk_bins(system);
 
     if (!system->is_empty()) {
         // Handle special read-only partitions
