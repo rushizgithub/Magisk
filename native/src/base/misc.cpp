@@ -208,11 +208,18 @@ uint32_t binary_gcd(uint32_t u, uint32_t v) {
 }
 
 int switch_mnt_ns(int pid) {
+    // Since Linux 5.8, fd may refer to a PID file descriptor obtained
+    //   from pidfd_open(2) or clone(2)
+    int fd = syscall(SYS_pidfd_open, pid, 0);
+    int ret = setns(fd, CLONE_NEWNS); close(fd);
+    if (ret == 0)
+	    return ret;
+
+    // Fallback to old method
     char mnt[32];
     ssprintf(mnt, sizeof(mnt), "/proc/%d/ns/mnt", pid);
     if (access(mnt, R_OK) == -1) return 1; // Maybe process died..
 
-    int fd, ret;
     fd = xopen(mnt, O_RDONLY);
     if (fd < 0) return 1;
     // Switch to its namespace
