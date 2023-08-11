@@ -17,6 +17,7 @@
 #include <selinux.hpp>
 
 #include "core.hpp"
+#include "zygisk/zygisk.hpp"
 
 #define COUNT_FAILBOOT "/cache/.magisk_checkboot"
 
@@ -774,6 +775,13 @@ static void boot_complete() {
     LOGI("** boot-complete triggered\n");
     rm_rf(COUNT_FAILBOOT);
     tune_f2fs();
+
+    
+    if (zygisk_enabled && get_prop(NATIVE_BRIDGE_PROP) != orig_native_bridge) {
+        LOGE("zygisk: unable to inject through native bridge\n");
+        set_prop(NATIVE_BRIDGE_PROP, orig_native_bridge.data(), false);
+        zygisk_enabled = false;
+    }
 
     // At this point it's safe to create the folder
     if (access(SECURE_DIR, F_OK) != 0)
