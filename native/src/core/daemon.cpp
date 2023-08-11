@@ -367,7 +367,7 @@ static void daemon_entry() {
     rm_rf((MAGISKTMP + "/" ROOTOVL).data());
 
     // Load config status
-    auto config = MAGISKTMP + "/" MAIN_CONFIG;
+    auto config = MAGISKTMP + "/" INTLROOT "/config";
     parse_prop_file(config.data(), [](auto key, auto val) -> bool {
         if (key == "RECOVERYMODE" && val == "true")
             RECOVERY_MODE = true;
@@ -389,14 +389,11 @@ static void daemon_entry() {
         }
     }
 
+    sockaddr_un sun{};
+    socklen_t len = setup_sockaddr(&sun, MAIN_SOCKET);
     fd = xsocket(AF_LOCAL, SOCK_STREAM | SOCK_CLOEXEC, 0);
-    sockaddr_un addr = {.sun_family = AF_LOCAL};
-    strcpy(addr.sun_path, (MAGISKTMP + "/" MAIN_SOCKET).data());
-    unlink(addr.sun_path);
-    if (xbind(fd, (sockaddr *) &addr, sizeof(addr)))
+    if (xbind(fd, (sockaddr *) &sun, len))
         exit(1);
-    chmod(addr.sun_path, 0666);
-    setfilecon(addr.sun_path, MAGISK_FILE_CON);
     xlisten(fd, 10);
 
     default_new(poll_map);
@@ -412,13 +409,6 @@ static void daemon_entry() {
 }
 
 string find_magisk_tmp() {
-    if (access("/debug_ramdisk/" INTLROOT, F_OK) == 0) {
-        return "/debug_ramdisk";
-    }
-    if (access("/sbin/" INTLROOT, F_OK) == 0) {
-        return "/sbin";
-    }
-    // Fallback to lookup from mountinfo for manual mount, e.g. avd
     for (const auto &mount: parse_mount_info("self")) {
         if (mount.source == "magisk" && mount.root == "/") {
             return mount.target;
@@ -428,11 +418,11 @@ string find_magisk_tmp() {
 }
 
 int connect_daemon(int req, bool create) {
-    int fd = xsocket(AF_LOCAL, SOCK_STREAM | SOCK_CLOEXEC, 0);
-    sockaddr_un addr = {.sun_family = AF_LOCAL};
+    sockaddr_un sun{};
+    socklen_t len = setup_sockaddr(&sun, MAIN_SOCKET);
     string tmp = find_magisk_tmp();
-    strcpy(addr.sun_path, (tmp + "/" MAIN_SOCKET).data());
-    if (connect(fd, (sockaddr *) &addr, sizeof(addr))) {
+    int fd = xsocket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0);
+    if (connect(fd, (sockaddr *) &sun, len)) {
         if (!create || getuid() != AID_ROOT) {
             LOGE("No daemon is currently running!\n");
             close(fd);
@@ -452,7 +442,7 @@ int connect_daemon(int req, bool create) {
             daemon_entry();
         }
 
-        while (connect(fd, (sockaddr *) &addr, sizeof(addr)))
+        while (connect(fd, (struct sockaddr *) &sun, len))
             usleep(10000);
     }
     write_int(fd, req);

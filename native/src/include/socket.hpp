@@ -22,6 +22,7 @@ void write_int_be(int fd, int val);
 std::string read_string(int fd);
 bool read_string(int fd, std::string &str);
 void write_string(int fd, std::string_view str);
+socklen_t setup_sockaddr(sockaddr_un *sun, const char *name);
 
 template<typename T> requires(std::is_trivially_copyable_v<T>)
 void write_vector(int fd, const std::vector<T> &vec) {
