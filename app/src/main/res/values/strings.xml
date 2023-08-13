@@ -284,4 +284,16 @@
     <string name="settings_logcat_monitor_summary">Monitor logcat instead of ptrace to detect the creation of app process. It\'s less detectable than ptrace but unrealiable.</string>
     <string name="settings_logcat_monitor_no_need">No need when Zygisk is enabled</string>
 
+    <!-- rename strings -->
+    <string name="settings_unmount_modules_title">Unmount modules</string>
+    <string name="settings_unmount_modules_summary">Enabling this option to allow Magisk to unmount modules for selected apps</string>
+    <string name="settings_mount_modules_title">Unmount modules by default</string>
+    <string name="settings_mount_modules_summary">Enabling this option to allow Magisk modules to be unmounted globally and mounted for selected apps</string>
+    <string name="settings_mount_modules_enforced">Global unmount modules is enforced</string>
+    <string name="settings_mount_modules_error">This feature need Unmount modules to be enabled</string>
+    <string name="settings_unmount_config_title">Configure unmount</string>
+    <string name="settings_unmount_config_summary">Select the processes to be unmounted</string>
+    <string name="settings_mount_config_title">Configure mount</string>
+    <string name="settings_mount_config_summary">Select the processes to be mounted</string>
+
 </resources>

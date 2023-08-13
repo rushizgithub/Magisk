@@ -220,7 +220,7 @@ object Magisk : BaseSettingsItem.Section() {
 }
 
 object MagiskHideClass : BaseSettingsItem.Section() {
-    override val title = R.string.settings_magiskhide_title.asText()
+    override val title = R.string.settings_unmount_modules_title.asText()
 }
 
 object Zygisk : BaseSettingsItem.Toggle() {
@@ -241,10 +241,10 @@ object Zygisk : BaseSettingsItem.Toggle() {
 }
 
 object DenyList : BaseSettingsItem.Toggle() {
-    override val title = R.string.settings_magiskhide_title.asText()
+    override val title = R.string.settings_unmount_modules_title.asText()
     override val description get() =
-        if (Info.sulist) R.string.settings_sulist_enforced.asText()
-        else R.string.settings_magiskhide_summary.asText()
+        if (Info.sulist) R.string.settings_mount_modules_enforced.asText()
+        else R.string.settings_unmount_modules_summary.asText()
 
     override var value = Config.denyList
         set(value) {
@@ -307,11 +307,11 @@ object CoreOnly : BaseSettingsItem.Toggle() {
 
 
 object SuList : BaseSettingsItem.Toggle() {
-    override val title = R.string.settings_sulist_title.asText()
+    override val title = R.string.settings_mount_modules_title.asText()
     override val description get() =
-        if (!Config.denyList) R.string.settings_sulist_error_magiskhide.asText()
+        if (!Config.denyList) R.string.settings_mount_modules_error.asText()
         else if (mismatch) R.string.reboot_apply_change.asText()
-        else R.string.settings_sulist_summary.asText()
+        else R.string.settings_mount_modules_summary.asText()
 
 
     override var value = Config.sulist
@@ -339,11 +339,11 @@ object DenyListConfig : BaseSettingsItem.Blank() {
     var status = Shell.cmd("magisk --hide sulist").exec().isSuccess;
 
     override val title get() =
-        if (Info.sulist) R.string.settings_sulist_config_title.asText()
-        else R.string.settings_hidelist_config_title.asText()
+        if (Info.sulist) R.string.settings_mount_config_title.asText()
+        else R.string.settings_unmount_config_title.asText()
     override val description get() =
-        if (Info.sulist) R.string.settings_sulist_config_summary.asText()
-        else R.string.settings_hidelist_config_summary.asText()
+        if (Info.sulist) R.string.settings_mount_config_summary.asText()
+        else R.string.settings_unmount_config_summary.asText()
     
     
     override fun refresh() {
