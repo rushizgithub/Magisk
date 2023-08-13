@@ -414,7 +414,7 @@ tr -dc A-Za-z0-9 </dev/urandom | head -c $(($FROM+$(($RANDOM%$(($TO-$FROM+1)))))
 }
 
 magiskrc(){
-local MAGISKTMP="/dev/magisk"
+local MAGISKTMP="/dev/magisk_$(random_str 9 16)"
 
 # use "magisk --auto-selinux" to automatically switching selinux state
 

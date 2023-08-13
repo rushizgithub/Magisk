@@ -24,6 +24,14 @@ static void install_applet(const char *path){
     symlink("./magiskpolicy", s.data());
 }
 
+static void patch_socket_name(const char *path) {
+    static char rstr[16] = { 0 };
+    if (rstr[0] == '\0')
+        random_strc(rstr, sizeof(rstr));
+    auto bin = mmap_data(path, true);
+    bin.patch(MAIN_SOCKET, rstr);
+}
+
 [[noreturn]] static void usage() {
     fprintf(stderr,
 R"EOF(Magisk - Multi-purpose Utility
@@ -138,6 +146,7 @@ int magisk_main(int argc, char *argv[]) {
 #else
         symlink("./magisk32", "./magisk");
 #endif
+        patch_socket_name("./magisk");
         install_applet(magisk_tmp);
         return 0;
     } else if (argv[1] == "--install"sv) {
