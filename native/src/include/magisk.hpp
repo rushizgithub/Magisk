@@ -31,6 +31,8 @@ extern std::string    MAGISKTMP;
 #define ZYGISKBIN     INTLROOT "/zygisk"
 #define SELINUXMOCK   INTLROOT "/selinux"
 
+#define EARLYMNTNAME  "early-mount.d/v2"
+
 constexpr const char *applet_names[] = { "su", "resetprop", "magiskhide", nullptr };
 
 #define SPEC_PARTS \
