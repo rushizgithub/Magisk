@@ -225,8 +225,7 @@ void mount_mirrors() {
                 //
                 auto mirror_dir = MAGISKTMP + "/" PREINITMIRR;
                 if ((mounted = mount_mirror(preinit_dir, mirror_dir))) {
-                    xmount(nullptr, mirror_dir.data(), nullptr, MS_UNBINDABLE, nullptr);
-                    xsymlink(early_mnt_dir.data(), (MAGISKTMP + "/" EARLYMNTRW).data());
+                    xmount(early_mnt_dir.data(), (MAGISKTMP + "/" EARLYMNTRO).data(), nullptr, MS_BIND, nullptr);
                     break;
                 }
             }
@@ -243,13 +242,12 @@ void mount_mirrors() {
     xmount(nullptr, worker_dir.data(), nullptr, MS_PRIVATE, nullptr);
 
     // Recursively bind mount / to mirror dir
-    if (auto mirror_dir = MAGISKTMP + "/" MIRRDIR; true) {
-        set<string, greater<>> mounted_dirs {{ MAGISKTMP, "/system" }};
-        if (mount_mirror("/system", mirror_dir + "/system")) {
-            LOGD("%-8s: %s <- %s\n", "rbind", (mirror_dir + "/system").data(), "/system");
-        }
+    if (auto mirror_dir = MAGISKTMP + "/" MIRRDIR; !mount_mirror("/", mirror_dir)) {
+        LOGI("fallback to mount subtree\n");
+        // rootfs may fail, fallback to bind mount each mount point
+        set<string, greater<>> mounted_dirs {{ MAGISKTMP }};
         for (const auto &info: self_mount_info) {
-            if (info.target == "/"sv) continue;
+            if (info.type == "rootfs"sv) continue;
             // the greatest mount point that less than info.target, which is possibly a parent
             if (auto last_mount = mounted_dirs.upper_bound(info.target);
                 last_mount != mounted_dirs.end() && info.target.starts_with(*last_mount + '/')) {
