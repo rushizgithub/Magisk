@@ -544,6 +544,7 @@ static bool check_key_combo() {
     uint8_t bitmask[(KEY_MAX + 1) / 8];
     vector<int> events;
     constexpr char name[] = "/dev/.ev";
+    int volumeDownCount = 0;
 
     // First collect candidate events that accepts volume down
     for (int minor = 64; minor < 96; ++minor) {
@@ -565,8 +566,8 @@ static bool check_key_combo() {
 
     run_finally fin([&]{ std::for_each(events.begin(), events.end(), close); });
 
-    // Check if volume down key is held continuously for more than 3 seconds
-    for (int i = 0; i < 300; ++i) {
+    // Check if volume down key is pressed more than 3 times
+    for (int i = 0; i < 3; ++i) {
         bool pressed = false;
         for (const int &fd : events) {
             memset(bitmask, 0, sizeof(bitmask));
@@ -576,13 +577,19 @@ static bool check_key_combo() {
                 break;
             }
         }
-        if (!pressed)
-            return false;
-        // Check every 10ms
-        usleep(10000);
+        if (pressed) {
+            volumeDownCount++;
+            // Wait for the next key press
+            usleep(10000);
+        }
     }
-    LOGD("KEY_VOLUMEDOWN detected: enter safe mode\n");
-    return true;
+
+    if (volumeDownCount >= 3) {
+        LOGD("KEY_VOLUMEDOWN pressed more than 3 times: enter safe mode\n");
+        return true;
+    }
+
+    return false;
 }
 
 #define F2FS_DEF_CP_INTERVAL "60"
